@@ -38,7 +38,6 @@ if(idadeComprador >= 18 && temPassagemComprada){
 }
 
 
-
 console.log(listaDeDestinos);
 
 // console.log(idadeComprador > 18);
