@@ -1,16 +1,12 @@
 //molde
 export class Cliente {
-    nome;
-    _cpf;
 
     get cpf() {
         return this._cpf;
     }
 
-
-
     constructor(nome, cpf) {
-        this.nome = nome;
+        this.nome = nome; //atributos podem ser inicializados dentro de metodos
         this._cpf = cpf;
     }
 }
