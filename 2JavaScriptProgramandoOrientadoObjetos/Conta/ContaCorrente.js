@@ -2,7 +2,7 @@ import { Conta } from "./Conta.js";
 
 export class ContaCorrente extends Conta {
 
-    static numerosDeContas = 0; //referencia todas as instancias daquela classe
+    static numerosDeContas = 0; //referencia todas as instancias daquela classe //metodos estaticos nao precisam de instancias
 
     constructor(cliente, agencia) {
         super(0, cliente, agencia); //chamando o construtor da classe pai dentro do construtor da classe filha
