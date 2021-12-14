@@ -2,7 +2,8 @@
     "compilerOptions": {
         "outDir": "dist/js", //diretorio de saida para converter para js
         "target": "ES6",
-        "noEmitOnError": true
+        "noEmitOnError": true,
+        "noImplicitAny": true
     },
     "include": ["app/**/*"] //diretorio com arquivos ts para serem convertidos
 }
