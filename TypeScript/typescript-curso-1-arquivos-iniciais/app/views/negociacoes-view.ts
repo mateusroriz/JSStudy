@@ -1,11 +1,8 @@
 import { Negociacoes } from "../models/negociacoes.js";
+import { View } from "./view.js";
 
-export class NegociacoesView {
-    private elemento: HTMLElement;
+export class NegociacoesView extends View<Negociacoes> { //herando da view e definindo o generics como Negociacoes
 
-    constructor(seletor: string) {
-        this.elemento = document.querySelector(seletor); //retorna o elemento da DOM passado no parametro do construtor
-    }
 
     template(model: Negociacoes): string {
         return `
@@ -26,17 +23,11 @@ export class NegociacoesView {
                             <td>${negociacao.valor}</td>
                         </tr>
                         `;
-        }).join('') //return all the strings as a unique string
+        })// .join('') //return all the strings as a unique string //this is doing nothing????
             } 
                 </tbody>
             </table>
         `;
     }
-    update(model: Negociacoes): void { //renderizar o template no elemento q foi passado no construtor 
-        const template = this.template(model);
-        console.log(template);
-        this.elemento.innerHTML = template;  //qualquer html jogado aqui vai ser transformado em DOM
-    }
-
 }
 

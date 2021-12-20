@@ -1,7 +1,5 @@
-export class NegociacoesView {
-    constructor(seletor) {
-        this.elemento = document.querySelector(seletor); //retorna o elemento da DOM passado no parametro do construtor
-    }
+import { View } from "./view.js";
+export class NegociacoesView extends View {
     template(model) {
         return `
             <table class="table table-hover table-bordered">
@@ -21,15 +19,10 @@ export class NegociacoesView {
                             <td>${negociacao.valor}</td>
                         </tr>
                         `;
-        }).join('') //return all the strings as a unique string
+        }) // .join('') //return all the strings as a unique string //this is doing nothing????
         } 
                 </tbody>
             </table>
         `;
-    }
-    update(model) {
-        const template = this.template(model);
-        console.log(template);
-        this.elemento.innerHTML = template; //qualquer html jogado aqui vai ser transformado em DOM
     }
 }
