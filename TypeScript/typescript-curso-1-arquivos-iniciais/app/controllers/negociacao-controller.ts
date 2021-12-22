@@ -9,7 +9,7 @@ export class NegociacaoController {
     private inputQuantidade: HTMLInputElement;
     private inputValor: HTMLInputElement;
     private negociacoes = new Negociacoes();
-    private negociacoesView = new NegociacoesView('#negociacoesView');  //negociacoesView vai ter que renderizar #negociacoesView
+    private negociacoesView = new NegociacoesView('#negociacoesView', true);  //negociacoesView vai ter que renderizar #negociacoesView
     private mensageView = new MensagemView('#mensagemView');
  
     constructor() { //atribuindo os valores das propriedades no construtor
@@ -20,7 +20,11 @@ export class NegociacaoController {
     }
 
     adiciona(): void {
-        const negociacao = this.criarNegociacao(); 
+        const negociacao =  Negociacao.criaDe(
+            this.inputData.value,
+            this.inputQuantidade.value,
+            this.inputValor.value
+        ); 
         if(!this.ehDiaUtil(negociacao.data)){
             this.mensageView.update("Apenas negociacoes em dias uteis sao aceitas");
             return;
@@ -32,14 +36,6 @@ export class NegociacaoController {
 
     private ehDiaUtil(data: Date){
         return data.getDay() > DiasDaSemana.DOMINGO && data.getDay() < DiasDaSemana.SABADO;
-    }
-
-    private criarNegociacao(): Negociacao {
-        const exp = /-/g; //regex for formating date
-        const data = new Date(this.inputData.value.replace(exp, ",")); //trocando - no data por ,
-        const quantidade = parseInt(this.inputQuantidade.value); //convertando string para int
-        const valor = parseFloat(this.inputValor.value);
-        return new Negociacao(data, quantidade, valor); //adicionando os valores pegados na dom para uma nova classe negociacao
     }
 
     private limparFormulario(): void {

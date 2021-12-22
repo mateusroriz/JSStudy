@@ -14,9 +14,16 @@ export class Negociacao {
     }
 
     get valor(): number {
-        return  this._valor;
-        // return this._quantidade * this._valor;
+        return this._valor;
+    }
 
+    //metodo statico pertence a classe nao a uma instancia
+    static criaDe(dataString: string, quantidadeString: string, valorString: string): Negociacao { //metodo static pode ser chamado diretamente da classe 
+        const exp = /-/g; //regex for formating date
+        const data = new Date(dataString.replace(exp, ",")); //trocando - no data por ,
+        const quantidade = parseInt(quantidadeString); //convertando string para int
+        const valor = parseFloat(valorString);
+        return new Negociacao(data, quantidade, valor); //adicionando os valores pegados na dom para uma nova classe negociacao
     }
 
 }
