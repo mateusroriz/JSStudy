@@ -17,9 +17,8 @@ export class Negociacao {
         return this._valor;
     }
 
-    //metodo statico pertence a classe nao a uma instancia
-    static criaDe(dataString: string, quantidadeString: string, valorString: string): Negociacao { //metodo static pode ser chamado diretamente da classe 
-        const exp = /-/g; //regex for formating date
+    static criaDe(dataString: string, quantidadeString: string, valorString: string): Negociacao {    //metodo statico pertence a classe nao a uma instancia
+        const exp = /-/g; //regex para formatar a data
         const data = new Date(dataString.replace(exp, ",")); //trocando - no data por ,
         const quantidade = parseInt(quantidadeString); //convertando string para int
         const valor = parseFloat(valorString);

@@ -3,7 +3,9 @@
         "outDir": "dist/js", //diretorio de saida para converter para js
         "target": "ES6",
         "noEmitOnError": true,
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "removeComments": true,
+        "strictNullChecks": true
     },
     "include": ["app/**/*"] //diretorio com arquivos ts para serem convertidos
 }

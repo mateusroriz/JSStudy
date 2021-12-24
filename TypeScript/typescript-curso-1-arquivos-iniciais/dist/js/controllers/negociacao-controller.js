@@ -6,12 +6,12 @@ import { NegociacoesView } from "../views/negociacoes-view.js";
 export class NegociacaoController {
     constructor() {
         this.negociacoes = new Negociacoes();
-        this.negociacoesView = new NegociacoesView('#negociacoesView', true); //negociacoesView vai ter que renderizar #negociacoesView
+        this.negociacoesView = new NegociacoesView('#negociacoesView', true);
         this.mensageView = new MensagemView('#mensagemView');
-        this.inputData = document.querySelector('#data'); //pegando a propriedade data dentro do index.html //pegando elementos do DOM
+        this.inputData = document.querySelector('#data');
         this.inputQuantidade = document.querySelector("#quantidade");
         this.inputValor = document.querySelector("#valor");
-        this.negociacoesView.update(this.negociacoes); //renderizando a tabela de negociacoes-view
+        this.negociacoesView.update(this.negociacoes);
     }
     adiciona() {
         const negociacao = Negociacao.criaDe(this.inputData.value, this.inputQuantidade.value, this.inputValor.value);

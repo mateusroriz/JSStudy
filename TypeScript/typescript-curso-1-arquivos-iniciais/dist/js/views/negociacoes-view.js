@@ -19,8 +19,7 @@ export class NegociacoesView extends View {
                             <td>${negociacao.valor}</td>
                         </tr>
                         `;
-        }) // .join('') //return all the strings as a unique string //this is doing nothing????
-        } 
+        })} 
                 </tbody>
             </table>
         `;

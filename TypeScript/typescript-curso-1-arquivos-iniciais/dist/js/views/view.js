@@ -1,15 +1,21 @@
 export class View {
     constructor(seletor, escapar) {
         this.escapar = false;
-        this.elemento = document.querySelector(seletor);
-        if (escapar) { // se nao passar nada eh undefined nao falso
+        const elemento = document.querySelector(seletor);
+        if (elemento) {
+            this.elemento = elemento;
+        }
+        else {
+            throw Error(`Seletor ${seletor} não existe no DOM por favor verifique`);
+        }
+        if (escapar) {
             this.escapar = escapar;
         }
     }
     update(model) {
         let template = this.template(model);
         if (this.escapar) {
-            template = template.replace(/<script>[\s\S/]*?<\/script>/, ''); //troca as tags scripts por nada
+            template = template.replace(/<script>[\s\S/]*?<\/script>/, '');
         }
         this.elemento.innerHTML = template;
     }

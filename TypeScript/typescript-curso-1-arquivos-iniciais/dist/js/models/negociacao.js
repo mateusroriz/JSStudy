@@ -5,8 +5,8 @@ export class Negociacao {
         this._valor = _valor;
     }
     get data() {
-        const copiaData = new Date(this._data.getTime()); //copiando data para uma nova referencia para impedir da data ser modificada
-        return copiaData; //retornando copia da data
+        const copiaData = new Date(this._data.getTime());
+        return copiaData;
     }
     get quantidade() {
         return this._quantidade;
@@ -14,12 +14,11 @@ export class Negociacao {
     get valor() {
         return this._valor;
     }
-    //metodo statico pertence a classe nao a uma instancia
     static criaDe(dataString, quantidadeString, valorString) {
-        const exp = /-/g; //regex for formating date
-        const data = new Date(dataString.replace(exp, ",")); //trocando - no data por ,
-        const quantidade = parseInt(quantidadeString); //convertando string para int
+        const exp = /-/g;
+        const data = new Date(dataString.replace(exp, ","));
+        const quantidade = parseInt(quantidadeString);
         const valor = parseFloat(valorString);
-        return new Negociacao(data, quantidade, valor); //adicionando os valores pegados na dom para uma nova classe negociacao
+        return new Negociacao(data, quantidade, valor);
     }
 }

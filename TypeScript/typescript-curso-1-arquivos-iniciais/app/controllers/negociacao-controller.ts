@@ -11,21 +11,21 @@ export class NegociacaoController {
     private negociacoes = new Negociacoes();
     private negociacoesView = new NegociacoesView('#negociacoesView', true);  //negociacoesView vai ter que renderizar #negociacoesView
     private mensageView = new MensagemView('#mensagemView');
- 
+
     constructor() { //atribuindo os valores das propriedades no construtor
-        this.inputData = document.querySelector('#data'); //pegando a propriedade data dentro do index.html //pegando elementos do DOM
-        this.inputQuantidade = document.querySelector("#quantidade");
-        this.inputValor = document.querySelector("#valor");
+        this.inputData = document.querySelector('#data') as HTMLInputElement; //pegando a propriedade data dentro do index.html //pegando elementos do DOM
+        this.inputQuantidade = document.querySelector("#quantidade") as HTMLInputElement; 
+        this.inputValor = document.querySelector("#valor") as HTMLInputElement;
         this.negociacoesView.update(this.negociacoes); //renderizando a tabela de negociacoes-view
     }
 
     adiciona(): void {
-        const negociacao =  Negociacao.criaDe(
+        const negociacao = Negociacao.criaDe(
             this.inputData.value,
             this.inputQuantidade.value,
             this.inputValor.value
-        ); 
-        if(!this.ehDiaUtil(negociacao.data)){
+        );
+        if (!this.ehDiaUtil(negociacao.data)) {
             this.mensageView.update("Apenas negociacoes em dias uteis sao aceitas");
             return;
         }
@@ -34,7 +34,7 @@ export class NegociacaoController {
         this.atualizaView();
     }
 
-    private ehDiaUtil(data: Date){
+    private ehDiaUtil(data: Date) {
         return data.getDay() > DiasDaSemana.DOMINGO && data.getDay() < DiasDaSemana.SABADO;
     }
 
