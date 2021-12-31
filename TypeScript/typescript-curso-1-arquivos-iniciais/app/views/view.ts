@@ -6,7 +6,7 @@ export abstract class View<T>{
     constructor(seletor : string, escapar?: boolean){  //? eh parametro opcional
         const elemento = document.querySelector(seletor);
         if(elemento){
-            this.elemento = elemento as HTMLLIElement;
+            this.elemento = elemento as HTMLElement;
         }else{
             throw Error(`Seletor ${seletor} não existe no DOM por favor verifique`);
         }
