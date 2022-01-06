@@ -10,9 +10,9 @@ export class AppComponent {
   transferencias: any[] = [];
 
 
-  receber($event) {
+  receberETransferir($event) {
     console.log($event); //recebendo o valor do evento e dando console.log
-    const transferencia = {...$event, data: new Date} //scrap operator desmonta o array em suas propriedade
+    const transferencia = {...$event, data: new Date} //scrap operator desmonta o array em suas propriedade e adicionando campo data ao objeto
     this.transferencias.push(transferencia); //enviando as transferencias para o array
   }
 }
