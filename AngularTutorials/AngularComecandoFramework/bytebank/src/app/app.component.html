@@ -1,5 +1,5 @@
 <!-- recendo o valor atraves desse evento e propagando ele pro metodo do component -->
-<app-nova-transferencia (aoTransferir)="receberETransferir($event)"></app-nova-transferencia>
+<app-nova-transferencia (aoTransferir)="receberAppComponent($event)"></app-nova-transferencia>
 
 <!-- atravez do @input fazendo a transferencia de dados do app.compoent para o app-extrato-->
 <app-extrato [transferenciasReceber]="transferencias"></app-extrato>
