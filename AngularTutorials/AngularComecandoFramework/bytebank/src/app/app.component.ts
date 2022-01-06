@@ -7,11 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bytebank';
-  transferencia: any;
+  transferencias: any[] = [];
 
 
-  transferir($event) {
+  receber($event) {
     console.log($event); //recebendo o valor do evento e dando console.log
-    this.transferencia = $event;
+    const transferencia = {...$event, data: new Date} //scrap operator desmonta o array em suas propriedade
+    this.transferencias.push(transferencia); //enviando as transferencias para o array
   }
 }

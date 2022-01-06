@@ -1,6 +1,6 @@
 <!-- recendo o valor atraves desse evento e propagando ele pro metodo do component -->
-<app-nova-transferencia (aoTransferir)="transferir($event)"></app-nova-transferencia>
+<app-nova-transferencia (aoTransferir)="receber($event)"></app-nova-transferencia>
 
-<!-- interpolando os valores e exibindo eles na pagina html// ? eh usado para permitir a insercao de dados caso existam  -->
-<p>Valor: {{transferencia?.valor}}</p>
-<p>Destino: {{transferencia?.destino}}</p>
+<!-- atravez do @input fazendo a transferencia de dados do app.compoent para o app-extrato-->
+<app-extrato [transferencias]="transferencias"></app-extrato>
+
