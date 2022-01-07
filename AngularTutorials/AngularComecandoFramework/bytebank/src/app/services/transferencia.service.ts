@@ -10,7 +10,7 @@ export class TransferenciaService {
   constructor() {
     this.listaTransferencia = [];
   }
-  get transferencias() {
+  get getTransferencias() {
     return this.listaTransferencia;
   }
 

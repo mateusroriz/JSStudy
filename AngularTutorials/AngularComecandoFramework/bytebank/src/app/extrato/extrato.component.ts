@@ -13,6 +13,6 @@ export class ExtratoComponent implements OnInit {
   constructor(private service: TransferenciaService) {}
 
   ngOnInit(): void {
-    this.transferenciasReceber = this.service.transferencias; //usando o metodo get da service de transferencias para pegar o valor
+    this.transferenciasReceber = this.service.getTransferencias; //usando o metodo get de service de transferencias para pegar o valor
   }
 }
