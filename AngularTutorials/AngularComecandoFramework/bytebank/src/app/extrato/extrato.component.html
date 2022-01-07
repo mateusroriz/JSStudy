@@ -5,7 +5,7 @@
     <th class = "tabela__cabecalho__conteudo">Destino</th>
   </thead>
 
-  <tbody>
+  <tbody *ngIf="transferenciasReceber.length> 0; else listaVazia">
     <!-- iterando sobre a lista de transferencias para mostrar todas na tela -->
     <tr class="tabela__linha" *ngFor="let transferencia of transferenciasReceber">
       <!-- interpolando os valores e exibindo eles na pagina html-->
@@ -14,5 +14,7 @@
       <td class = "tabela__conteudo">{{transferencia.destino}}</td>
     </tr>
   </tbody>
-
 </table>
+<ng-template #listaVazia>
+<p>Nenhuma transferencia cadastrada</p>
+</ng-template>
