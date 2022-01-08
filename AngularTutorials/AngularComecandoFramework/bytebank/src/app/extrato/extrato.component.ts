@@ -13,10 +13,7 @@ export class ExtratoComponent implements OnInit {
   constructor(private service: TransferenciaService) {}
 
   ngOnInit(): void {
-    this.service
-      .getTodasTransferencias()
-      .subscribe((transferencias: Array<any>) => {
-        //como getTodasTransferencias eh observable usando subscribe para receber valores dela
+    this.service.getTodasTransferencias().subscribe((transferencias: Array<any>) => { //como getTodasTransferencias eh observable usando subscribe para receber valores dela
         console.table(transferencias);
         this.transferenciasReceber = transferencias; //colocando os valores recebeidos pelo service no array de extrato
       });

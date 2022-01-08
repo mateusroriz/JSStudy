@@ -23,8 +23,7 @@ export class NovaTransferenciaComponent {
     };
 
     this.service.adicionarTransferencia(valorEmitir).subscribe(
-      (resultado) => {
-        //POST: usando Subscribe no metodo Observable adicionarTransf para enviar mudancas quando ocorrerem
+      (resultado) => {//POST: usando Subscribe no metodo Observable adicionarTransf para enviar mudancas quando ocorrerem
         console.log(resultado);
         this.limparCampos();
       },
