@@ -13,19 +13,23 @@ export class NovaTransferenciaComponent {
   valor: number;
   destino: number;
 
-  constructor(private service: TransferenciaService){
-
-  }
+  constructor(private service: TransferenciaService) {}
 
   transferir() {
     console.log('solicitada nova transferencia');
-    const valorEmitir: Transferencia = { valor: this.valor, destino: this.destino };
+    const valorEmitir: Transferencia = {
+      valor: this.valor,
+      destino: this.destino,
+    };
 
-      this.service.adicionarTransferencia(valorEmitir).subscribe(resultado =>{ //se inscrevendo no metodo adicionarTransf para ficar observable e notificar as mudancas
-      console.log(resultado);
-      this.limparCampos();
-    },
-    error => console.error(error)); // no caso de errro no subscribe printar o valor na tela
+    this.service.adicionarTransferencia(valorEmitir).subscribe(
+      (resultado) => {
+        //POST: usando Subscribe no metodo Observable adicionarTransf para enviar mudancas quando ocorrerem
+        console.log(resultado);
+        this.limparCampos();
+      },
+      (error) => console.error(error)
+    ); // no caso de erro no subscribe printar o valor na tela
   }
 
   limparCampos() {

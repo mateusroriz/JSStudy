@@ -13,17 +13,20 @@ export class TransferenciaService {
   constructor(private httpClient: HttpClient) {
     this.listaTransferencia = [];
   }
+
   get getTransferencias() {
     return this.listaTransferencia;
   }
 
-  getTodasTransferencias(): Observable<Transferencia[]> {
-    return this.httpClient.get<Transferencia[]>(this.url);
+  getTodasTransferencias(): Observable<Array<Transferencia>> {
+    return this.httpClient.get<Array<Transferencia>>(this.url);
   }
 
-  adicionarTransferencia(transferencia: Transferencia): Observable<Transferencia> {
+  adicionarTransferencia(
+    transferencia: Transferencia
+  ): Observable<Transferencia> {
     this.adicionarData(transferencia);
-    return  this.httpClient.post<Transferencia>(this.url, transferencia);
+    return this.httpClient.post<Transferencia>(this.url, transferencia);
   }
 
   private adicionarData(transferencia: any) {
