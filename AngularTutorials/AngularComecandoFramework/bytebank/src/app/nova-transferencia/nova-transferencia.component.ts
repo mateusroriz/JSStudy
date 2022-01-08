@@ -1,3 +1,5 @@
+import { Transferencia } from './../../models/transferencia.model';
+import { TransferenciaService } from './../services/transferencia.service';
 import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -6,21 +8,28 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./nova-transferencia.component.scss'],
 })
 export class NovaTransferenciaComponent {
-
-  @Output() aoTransferir = new EventEmitter<any>(); //@Output eh decorator para compartilhar data entre componentes pais e filhos
+  @Output() aoTransferir = new EventEmitter<any>(); //@Output eh decorator para compartilhar dados entre componentes pais e filhos
 
   valor: number;
   destino: number;
 
-  transferir() {
-    console.log('solicitada nova transferencia');
-    const valorEmitir = {valor: this.valor, destino: this.destino}
-    this.aoTransferir.emit(valorEmitir); //emitindo os valores por meio do @Output
-    this.limparCampos();
+  constructor(private service: TransferenciaService){
+
   }
 
-  limparCampos(){
+  transferir() {
+    console.log('solicitada nova transferencia');
+    const valorEmitir: Transferencia = { valor: this.valor, destino: this.destino };
+
+      this.service.adicionarTransferencia(valorEmitir).subscribe(resultado =>{ //se inscrevendo no metodo adicionarTransf para ficar observable e notificar as mudancas
+      console.log(resultado);
+      this.limparCampos();
+    },
+    error => console.error(error)); // no caso de errro no subscribe printar o valor na tela
+  }
+
+  limparCampos() {
     this.valor = null;
-    this.destino =null;
+    this.destino = null;
   }
 }
