@@ -18,7 +18,7 @@ export class NovoUsuarioComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private novoUsuarioService: NovoUsuarioService,
-    private UsuarioExisteService: UsuarioExisteService,
+    private usuarioExisteService: UsuarioExisteService,
     private router: Router
   ) {}
 
