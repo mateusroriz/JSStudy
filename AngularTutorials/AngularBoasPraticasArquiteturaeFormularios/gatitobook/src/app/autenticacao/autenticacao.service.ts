@@ -1,19 +1,29 @@
+import { UsuarioService } from './usuario/usuario.service';
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import {HttpClient, HttpResponse} from '@angular/common/http'
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutenticacaoService {
 
-  constructor(private httpClient: HttpClient ) { }
+  constructor(private httpClient: HttpClient, private usuarioService: UsuarioService ) { }
   //observable eh como uma promise em javascript
   // eh um objeto que quando a requisicao completar ele vai retornar o objeto definido dentro do observable
-  autenticar(usuario: string, senha:string): Observable<any>{
+  autenticar(usuario: string, senha:string): Observable<HttpResponse<any>>{
       return this.httpClient.post('http://localhost:3000/user/login', {
         userName: usuario,
         password: senha,
-      });
+      },
+      {
+        observe: 'response'} //informando que tmb quer o header da requisicao
+      ).pipe( //fazer uma operacao para salvar o token no servico
+        tap((response) => { //retorna uma funcao para gravar o token
+          const authToken = response.headers.get('x-access-token') ?? '';
+          this.usuarioService.salvaToken(authToken); //salvando o token no local storage
+        })
+      )
   }
 }
