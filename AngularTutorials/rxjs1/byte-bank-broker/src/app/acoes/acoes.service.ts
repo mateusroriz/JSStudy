@@ -1,5 +1,5 @@
 import { Acao, AcoesAPI } from './modelo/acoes';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, pluck, tap } from 'rxjs/operators';
 
@@ -9,12 +9,14 @@ import { map, pluck, tap } from 'rxjs/operators';
 export class AcoesService {
   constructor(private httpClient: HttpClient) {}
 
-  getAcoes() {
-    return this.httpClient.get<AcoesAPI>('http://localhost:3000/acoes') //isso eh um observable
+  getAcoes(valor?: string) { // ? eh quando o parametro e opcional
+    const params = valor ? new HttpParams().append('valor', valor) : undefined; //se um valor for passado adiciona ele no Httpparams se nao deixar ele como undefined
+
+    return this.httpClient.get<AcoesAPI>('http://localhost:3000/acoes', {params}) //isso eh um observable e ele tambem recebe parametros caso existam
       .pipe(
-        tap((valor) => console.log(valor)), //printando o que esta passando no pipe
+        tap((valor) => console.log(valor)),
         pluck('payload'), //extraindo o payload e deixando apenas as acoes
-        map((acoes) => //esse eh o map do observable ele pertence ao rxjs nao o do js
+        map((acoes) => //esse eh o map do observable ele pertence ao rxjs nao eh o  do js
             acoes.sort((acaoA, acaoB) => this.ordenaPorCodigo(acaoA, acaoB))
         )
       );
