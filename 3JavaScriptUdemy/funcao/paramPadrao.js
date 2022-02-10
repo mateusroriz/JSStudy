@@ -11,7 +11,7 @@ console.log(soma1(), soma1(3), soma1(1,2,3), soma1(0 , 0 , 0), soma1(false, fals
 //estretegia 2, 3 e 4 para gerar valor padrao
 function soma2(a, b, c){
     a = (a !== undefined ? a : 1) //se a for diferente de undefined vai pegar o proprio valor de a se nao pegar o valor 1
-    b = (1 in arguments ? b : 1) //se o segundo argumento da funcao soma2 existir dentro de arguments pegue o valor dele se nao retorne 1
+    b = (1 in arguments ? b : 1) //se o segundo argumento da funcao soma2 existir dentro de arguments pegue o valor de B se nao retorne 1
     c = (isNaN(c) ? 1 : c) //se c for non a number retorne 1 se nao retorne c
 
     return a + b + c

@@ -1,6 +1,6 @@
-function soma(){
-    let montante =0;
-    for (i in arguments){
+function soma() {
+    let montante = 0;
+    for (i in arguments) {
         montante += arguments[i]
     }
     return montante

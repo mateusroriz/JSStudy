@@ -1,5 +1,6 @@
 const pessoa = {
-    saudacao: 'Bom dia',
+    //local scope
+    saudacao: 'Bom dia', 
     falar(){
         console.log(this.saudacao)
     }
@@ -8,7 +9,7 @@ const pessoa = {
 pessoa.falar() 
 
 
-const falarFora = pessoa.falar
+const falarFora = pessoa.falar  //contexto global
 falarFora() //conflito entre paradigmas: funcional e OO
 
 
