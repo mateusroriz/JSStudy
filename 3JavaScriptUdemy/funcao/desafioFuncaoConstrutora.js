@@ -1,5 +1,5 @@
 function Pessoa (nome) {
-        this.nome = nome; //this faz a variavel ser publica
+    this.nome = nome; //this faz a variavel ser publica
 
     this.falar = function() {
         console.log(`Meu nome e ${this.nome}`)
