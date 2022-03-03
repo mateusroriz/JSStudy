@@ -1,7 +1,6 @@
 const nums = [1, 2, 3, 4, 5]
 
 //map eh For com proposito
-
 let resultado = nums.map(function (e) { //o array original nao e afetado por map
     return e * 2
 })
