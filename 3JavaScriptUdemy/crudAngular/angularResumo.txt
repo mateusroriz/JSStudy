@@ -1,0 +1,143 @@
+- angular eh organizado em modulos
+- modulos possuem componentes
+- main.ts(arquivo principal) chama appModule que chama appComponent que chama outros componentes
+
+- O que eh um Componente
+- componente eh um trecho de codigo que representa um componente visual da tela
+- possui html (estrutura), css(estilo) e TS (comportamento)
+- quando o componente eh criado uma tag  // <app-home></app-home> // eh usado para referenciar todo o codigo nesse componente 
+
+-- TS faz referencia ao arquivo html e css 
+
+-- Anatomia do modulos
+-- possui: declarations, imports, exports, providers e bootsrap
+-- declarations: declaracao de todos os componentes que fazem parte daquele modulo, diretivas e pipes
+-- exports: eh onde os componentes que serao visiveis para fora sao declarados
+-- imports: eh onde outros modulos sao importados pra dentro do componente atual 
+-- providers: eh onde sao declarados os services
+-- bootstrap: eh onde o componente eh definido e eh sera carregado naquele modulo (referencia pro componente principal carregado)
+
+
+- dependencia de modulos eh de cima pra baixo na arvore, o A depende do B, o B nao depende do A, ninguem precisa referenciar o componente A,
+o A precisa referenciar os outros compontes, o B precisa ser exportado mas o A nao 
+
+
+--- Elementos do angular #01
+
+-- componentes (de novo)
+eh composto de 3 arquivos: HTML, CSS, TS
+existe um escopo "local", as alteracoes feitas em um componente afetam apenas a ele msm
+
+--Diretivas 
+
+decorator @Directive
+
+- decorator eh um padrao de projeto para evitar heranca, trabalhando com composicao para extender um objeto
+
+- Diretiva de atributo
+    - foca em alterar a aparencia(css) e o comportamento (js/ exemplo: chamada no backend) de um elemento, 
+componente ou outra diretiva
+
+
+- Diretiva Estrutural
+    - ela altera a estrutura da pagina, altera a DOM (HTML), removendo e adicionando atributos
+    - possui um * na frente(*ngIf/ *ngFor)
+
+- Property Binding (TS => HTML)
+ - comunicacao entre componente (js) e o template (HTML)
+ - uso de [] 
+ - acessar variaveis do js dentro do html
+ - binding de atributo ou property binding (significam a msm coisa)
+ - One way data biding (js altera html mas nao o contrario)
+
+- Event Binding (HTML => JS)
+ - ligar o template (html) ao componente (js)
+ - uso de ()
+
+ - One way data binding (TS => HTML)
+ - apenas um lado eh alterado
+ - eh property binding
+
+ - Two way data binding (TS <=> HTML)
+ - os dois lados sao alterados
+ - usa [(ngModel)]
+
+
+ -- Angular Router
+
+- linka os componentes para rotas 
+- router outlet eh um componente que injeta dentro dele os componentes de acordo com a navegacao feita 
+
+-- Angular pipes 
+ - pipes sao processamentos que sao feitos em cima de variaveis 
+ - usa {{ produto.vencimento | date}} | eh o pipe 
+   //isso esta chamando a funcao date para formatar produto.vencimento 
+ - {{ product.price | currency: 'BRL'}} //parametros podem ser passados dentro das pipes
+ - podem existir cadeia de processamentos de pipes // chaining // encadeamento 
+   {{ produto.vencimento | date: 'fullDate' | uppercase}}
+
+
+ - {{}} eh interpolacao de texto
+
+
+
+
+
+ --- Elementos do angular #02 
+  - Observables
+
+-- Programacao Reativa 
+ - Angular usa o framework ReactiveX
+ - js usa o rxjs
+ - o codigo so sera chamado de forma reativa 
+
+-- O padrao Observer 
+ - eh um padrao orientado a evento 
+ - a rensponsabilidade de monitorar um evento pode ser delegada a um subject e observers vao se registrar se tiverem interesse
+  no evento 
+ - subject detecta que o evento aconteceu e notifica os observers  
+ - o principio por tras da programacao reativa eh o padrao observer 
+
+ -- Entendendo Observables 
+  - reatividade comecou em js em callbacks, onde voce pode passa uma funcao como parametro para outra funcao 
+  - para evitar callback hell surgiram promises
+  - promises so sao usadas uma vez, nao sao reutilizadas, para isso surgiram o Observables 
+  - observables diferente das promises podem ser reusados, podem ser usados stream de dados para receber dados continuamente
+    e existe uma serie de operadores que sao funcoes que sao possiveis usar com os observables (como map e filter)
+ 
+ - O observable encapsula o padrao observer, que eh a base da programacao reativa 
+ - quando vc trabalha com observables, promises e callbacks, via de regra o codigo eh assincrono exemplo: chamada pro backend da 
+ aplicacao
+
+ 
+
+
+
+ --- Elementos do angular #03
+  - Services dentro do angular eh uma classe
+  - Services sao classes que tem como objetivo organizar e compartilhar codigo(metodos e dados) entre componentes
+  - services podem ser usados dentro de diretivas, nao apenas de componentes
+  - services geralmente nao tem relacao com componentes que cuidam de representacoes visuais 
+  - o backend da aplicacao pode ser acessado pelo service para separar responsabilidades
+
+  --Motivacao para os services
+   - colocar logicas nao relacionadas a parte visual fora da responsabilidade do componente visual
+   - para criar service use ng g s(ervice) "caminho/componente"
+
+ - Services podem ser injetados em outras classes, para serem usados pelos componentes 
+ - existe apenas uma instancia de algum service na aplicacao 
+ - o angular que gerencia a instanciacao e criacao de objetos e services
+
+ -- Injecao de dependencia
+  - é um padrao no qual a classe recebe as dependencias de uma fonte externa ao inves de criar por conta propria
+
+ - dentro do angular existe um modulo de injecao de dependencia, usando o @Injectable 
+ - o proprio angular vai instanciar a classe
+
+ - o root é um alias, apelido, para o AppModule
+- associado ao AppModule esta o RootInjector, que é o rensponsavel por fazer a injecao de dependencias
+
+- Service sao singletons dentro do escopo de um injector. (tem instancias unicas dentro desse escopo)
+ - dois tipos de injetor, de modulo (ModuleInjector) e de elemento (ElementInjector).
+ - ModuleInjector usa @NgModule, @Injectable 
+ - ElementInjector usa @Directive, @Component
