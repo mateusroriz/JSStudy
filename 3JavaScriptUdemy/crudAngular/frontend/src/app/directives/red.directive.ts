@@ -5,7 +5,7 @@ import { Directive, ElementRef } from '@angular/core';
 })
 export class RedDirective {
 
-  //usando injecao de dependencia
+  //usando injecao de dependencia / isso eh uma diretiva de atributo
   constructor(private el: ElementRef) { 
     el.nativeElement.style.color = '#e35e6b'
   }
