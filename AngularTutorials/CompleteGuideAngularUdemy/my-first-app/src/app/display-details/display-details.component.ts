@@ -8,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
 export class DisplayDetailsComponent implements OnInit {
   visible = false;
   arrayNumber = [];
-  clicksNumber = 0;
   constructor() {}
 
   ngOnInit(): void {}

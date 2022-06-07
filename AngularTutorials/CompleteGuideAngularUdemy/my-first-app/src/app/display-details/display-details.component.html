@@ -1,5 +1,7 @@
 <button class="btn btn-primary" (click)="showDetails()">Display Details</button>
 <p *ngIf="visible">secret password = "bass"</p>
 <p *ngFor="let click of arrayNumber; let i = index" [ngStyle]="{backgroundColor: i >= 4 ? 'blue' : 'transparent'}"
-  [ngClass]="{'white-text': i >=5}">
+  [ngClass]="{'white-text': i >=4}">
   {{click}}</p>
+
+  <!-- usando i no lugar de index pq o array passou a ser de string em vez de numeros -->
