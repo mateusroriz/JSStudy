@@ -10,7 +10,7 @@ export class AppComponent {
     { type: "server", name: "Testserver", content: "Just a test" },
   ];
 
-  onServerAdded(serverData: { serverName: "string"; serverContent: "string" }) {
+  onServerAdded(serverData: { serverName: "string"; serverContent: "string" }) { //enviando para o filho
     this.serverElements.push({
       type: "server",
       name: serverData.serverName,
