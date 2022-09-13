@@ -1,5 +1,6 @@
 <div class="panel panel-default">
-  <div class="panel-heading">{{ element.name }}</div>
+  <!-- <div class="panel-heading">{{ element.name }}</div> -->
+  <div class="panel-heading" #heading>{{ name }}</div>
   <div class="panel-body">
     <ng-content></ng-content> <!-- esse eh um hook que faz o angular considerar qualquer codigo entre a declaracao de um componente  -->
   </div>
