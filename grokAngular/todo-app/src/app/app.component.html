@@ -1,0 +1,15 @@
+<h1>Lista de Tarefas</h1>
+
+<!-- Formulário para adicionar tarefa -->
+<div>
+  <input #taskInput placeholder="Nova tarefa" (keyup.enter)="addTask(taskInput.value); taskInput.value=''">
+  <button (click)="addTask(taskInput.value); taskInput.value=''">Adicionar</button>
+</div>
+
+<!-- Lista de tarefas -->
+<ul>
+  <li *ngFor="let task of tasks" [class.completed]="task.completed">
+    <span (click)="toggleTask(task)">{{ task.title }}</span>
+    <button (click)="removeTask(task.id)" style="margin-left: 10px;">Remover</button>
+  </li>
+</ul>
