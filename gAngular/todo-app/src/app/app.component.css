@@ -49,7 +49,6 @@ div span {
   color: #333;
 }
 
-/* Estilo para os filtros */
 label {
   cursor: pointer;
   font-size: 14px;
@@ -57,4 +56,20 @@ label {
 
 input[type="radio"] {
   margin-right: 5px;
+}
+
+div button:nth-child(2) {
+  background-color: #28a745;
+}
+
+div button:nth-child(2):hover {
+  background-color: #218838;
+}
+
+/* Estilo para o input de edição */
+li input {
+  flex-grow: 1;
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }

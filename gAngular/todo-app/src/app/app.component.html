@@ -6,9 +6,12 @@
   <button (click)="addTask(taskInput.value); taskInput.value=''">Adicionar</button>
 </div>
 
-<!-- Botão para limpar tarefas concluídas, contador e filtros -->
+<!-- Botão para limpar tarefas concluídas, contador e alternar todas -->
 <div style="margin-top: 10px;">
   <button (click)="clearCompleted()">Limpar Concluídas</button>
+  <button (click)="toggleAll()" style="margin-left: 10px;">
+    {{ allCompleted() ? 'Desmarcar Todas' : 'Marcar Todas' }}
+  </button>
   <span style="margin-left: 20px;">Tarefas pendentes: {{ pendingTasksCount() }}</span>
 </div>
 
@@ -21,7 +24,14 @@
 <!-- Lista de tarefas -->
 <ul>
   <li *ngFor="let task of filteredTasks" [class.completed]="task.completed">
-    <span (click)="toggleTask(task)">{{ task.title }}</span>
+    <span *ngIf="editingTaskId !== task.id" (click)="toggleTask(task)" (dblclick)="startEditing(task)">
+      {{ task.title }}
+    </span>
+    <input *ngIf="editingTaskId === task.id"
+           [(ngModel)]="task.title"
+           (keyup.enter)="saveEdit(task)"
+           (blur)="saveEdit(task)"
+           autofocus>
     <button (click)="removeTask(task.id)" style="margin-left: 10px;">Remover</button>
   </li>
 </ul>
