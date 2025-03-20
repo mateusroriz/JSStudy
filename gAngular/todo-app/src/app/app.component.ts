@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'; // Importa o DragDropModule
 import { Task } from './task';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DragDropModule], // Adiciona o DragDropModule
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -14,7 +15,7 @@ export class AppComponent {
   tasks: Task[] = [];
   filteredTasks: Task[] = [];
   filter: string = 'all';
-  editingTaskId: number | null = null; // ID da tarefa sendo editada
+  editingTaskId: number | null = null;
 
   constructor() {
     const savedTasks = localStorage.getItem('tasks');
@@ -93,14 +94,20 @@ export class AppComponent {
   }
 
   startEditing(task: Task) {
-    this.editingTaskId = task.id; // Define a tarefa em edição
+    this.editingTaskId = task.id;
   }
 
   saveEdit(task: Task) {
     if (task.title.trim() === '') {
-      this.removeTask(task.id); // Remove se o título ficar vazio
+      this.removeTask(task.id);
     }
-    this.editingTaskId = null; // Sai do modo de edição
+    this.editingTaskId = null;
+    this.saveTasks();
+    this.applyFilter();
+  }
+
+  drop(event: CdkDragDrop<Task[]>) {
+    moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
     this.saveTasks();
     this.applyFilter();
   }

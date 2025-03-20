@@ -21,17 +21,18 @@
   <label style="margin-left: 10px;"><input type="radio" name="filter" value="completed" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Concluídas</label>
 </div>
 
-<!-- Lista de tarefas -->
-<ul>
-  <li *ngFor="let task of filteredTasks" [class.completed]="task.completed">
+<!-- Lista de tarefas com drag-and-drop -->
+<ul cdkDropList (cdkDropListDropped)="drop($event)">
+  <li *ngFor="let task of filteredTasks" cdkDrag [class.completed]="task.completed">
     <span *ngIf="editingTaskId !== task.id" (click)="toggleTask(task)" (dblclick)="startEditing(task)">
       {{ task.title }}
     </span>
-    <input *ngIf="editingTaskId === task.id"
-           [(ngModel)]="task.title"
-           (keyup.enter)="saveEdit(task)"
-           (blur)="saveEdit(task)"
-           autofocus>
+    <div *ngIf="editingTaskId === task.id" style="display: flex; align-items: center; flex-grow: 1;">
+      <input [(ngModel)]="task.title"
+             (keyup.enter)="saveEdit(task)"
+             (blur)="saveEdit(task)"
+             autofocus>
+    </div>
     <button (click)="removeTask(task.id)" style="margin-left: 10px;">Remover</button>
   </li>
 </ul>
