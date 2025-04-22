@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'; // Importa o DragDropModule
+import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Task } from './task';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, DragDropModule], // Adiciona o DragDropModule
+  imports: [CommonModule, FormsModule, DragDropModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -16,12 +16,14 @@ export class AppComponent {
   filteredTasks: Task[] = [];
   filter: string = 'all';
   editingTaskId: number | null = null;
+  categories: string[] = ['Trabalho', 'Pessoal', 'Compras', 'Outros']; // Lista de categorias
+  newTaskCategory: string = this.categories[0]; // Categoria padrão para nova tarefa
 
   constructor() {
     const savedTasks = localStorage.getItem('tasks');
     this.tasks = savedTasks ? JSON.parse(savedTasks) : [
-      { id: 1, title: 'Aprender Angular', completed: false },
-      { id: 2, title: 'Fazer café', completed: true }
+      { id: 1, title: 'Aprender Angular', completed: false, category: 'Trabalho' },
+      { id: 2, title: 'Fazer café', completed: true, category: 'Pessoal' }
     ];
     this.applyFilter();
   }
@@ -33,9 +35,11 @@ export class AppComponent {
     const newTask: Task = {
       id: this.tasks.length + 1,
       title,
-      completed: false
+      completed: false,
+      category: this.newTaskCategory // Usa a categoria selecionada
     };
     this.tasks.push(newTask);
+    this.newTaskCategory = this.categories[0]; // Reseta para a categoria padrão
     this.saveTasks();
     this.applyFilter();
   }

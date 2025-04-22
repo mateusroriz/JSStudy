@@ -1,9 +1,12 @@
 <h1>Lista de Tarefas</h1>
 
-<!-- Formulário para adicionar tarefa -->
-<div>
+<!-- Formulário para adicionar tarefa com categoria -->
+<div style="display: flex; align-items: center;">
   <input #taskInput placeholder="Nova tarefa" (keyup.enter)="addTask(taskInput.value); taskInput.value=''">
-  <button (click)="addTask(taskInput.value); taskInput.value=''">Adicionar</button>
+  <select [(ngModel)]="newTaskCategory" style="margin-left: 10px;">
+    <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+  </select>
+  <button (click)="addTask(taskInput.value); taskInput.value=''" style="margin-left: 10px;">Adicionar</button>
 </div>
 
 <!-- Botão para limpar tarefas concluídas, contador e alternar todas -->
@@ -25,9 +28,12 @@
 <ul cdkDropList (cdkDropListDropped)="drop($event)">
   <li *ngFor="let task of filteredTasks" cdkDrag [class.completed]="task.completed">
     <span *ngIf="editingTaskId !== task.id" (click)="toggleTask(task)" (dblclick)="startEditing(task)">
-      {{ task.title }}
+      [{{ task.category }}] {{ task.title }}
     </span>
     <div *ngIf="editingTaskId === task.id" style="display: flex; align-items: center; flex-grow: 1;">
+      <select [(ngModel)]="task.category" style="margin-right: 5px;">
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
       <input [(ngModel)]="task.title"
              (keyup.enter)="saveEdit(task)"
              (blur)="saveEdit(task)"
