@@ -20,13 +20,12 @@ export class AppComponent {
   categoryColors: { [key: string]: string } = {};
   newTaskCategory: string = '';
   editingTaskId: number | null = null;
-  showCategoryModal: boolean = false; // Controla a visibilidade do modal
-  editingCategory: string | null = null; // Categoria sendo editada (null para nova)
-  newCategoryName: string = ''; // Nome da nova/editada categoria
-  newCategoryColor: string = '#6c757d'; // Cor padrão para nova categoria
+  showCategoryModal: boolean = false;
+  editingCategory: string | null = null;
+  newCategoryName: string = '';
+  newCategoryColor: string = '#6c757d';
 
   constructor() {
-    // Carrega categorias e cores do localStorage
     const savedCategories = localStorage.getItem('categories');
     const savedColors = localStorage.getItem('categoryColors');
     this.categories = savedCategories
@@ -42,7 +41,6 @@ export class AppComponent {
         };
     this.newTaskCategory = this.categories[0];
 
-    // Carrega tarefas
     const savedTasks = localStorage.getItem('tasks');
     this.tasks = savedTasks ? JSON.parse(savedTasks) : [
       { id: 1, title: 'Aprender Angular', completed: false, category: 'Trabalho' },
@@ -163,27 +161,22 @@ export class AppComponent {
 
   saveCategory() {
     if (this.newCategoryName.trim() === '') {
-      return; // Impede salvar categoria vazia
+      return;
     }
     if (this.editingCategory) {
-      // Edita categoria existente
       const oldCategory = this.editingCategory;
       const newCategory = this.newCategoryName;
       if (oldCategory !== newCategory) {
-        // Atualiza categoria nas tarefas
         this.tasks = this.tasks.map(task =>
           task.category === oldCategory ? { ...task, category: newCategory } : task
         );
-        // Atualiza lista de categorias
         this.categories = this.categories.map(cat =>
           cat === oldCategory ? newCategory : cat
         );
       }
-      // Atualiza cor
       delete this.categoryColors[oldCategory];
       this.categoryColors[newCategory] = this.newCategoryColor;
     } else {
-      // Adiciona nova categoria
       if (!this.categories.includes(this.newCategoryName)) {
         this.categories.push(this.newCategoryName);
         this.categoryColors[this.newCategoryName] = this.newCategoryColor;
@@ -201,5 +194,41 @@ export class AppComponent {
     this.editingCategory = null;
     this.newCategoryName = '';
     this.newCategoryColor = '#6c757d';
+  }
+
+  deleteCategory(category: string) {
+    // Impede a exclusão se for a última categoria
+    if (this.categories.length <= 1) {
+      alert('Não é possível excluir a última categoria. Deve haver pelo menos uma categoria.');
+      return;
+    }
+
+    // Confirmação do usuário
+    const tasksInCategory = this.tasks.filter(task => task.category === category).length;
+    if (!confirm(`Deseja excluir a categoria "${category}"? ${tasksInCategory} tarefa(s) será(ão) movida(s) para "${this.categories[3]}".`)) {
+      return;
+    }
+
+    // Move tarefas da categoria excluída para a primeira categoria da lista
+    this.tasks = this.tasks.map(task =>
+      task.category === category ? { ...task, category: this.categories[3] } : task
+    );
+
+    // Remove a categoria e sua cor
+    this.categories = this.categories.filter(cat => cat !== category);
+    delete this.categoryColors[category];
+
+    // Ajusta categoryFilter e newTaskCategory, se necessário
+    if (this.categoryFilter === category) {
+      this.categoryFilter = 'all';
+    }
+    if (this.newTaskCategory === category) {
+      this.newTaskCategory = this.categories[0];
+    }
+
+    // Salva as alterações e atualiza a lista
+    this.saveCategories();
+    this.saveTasks();
+    this.applyFilter();
   }
 }

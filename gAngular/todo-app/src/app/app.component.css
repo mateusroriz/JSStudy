@@ -159,12 +159,11 @@ ul li {
   border: none;
 }
 
-/* Estilo para o layout de duas colunas */
 .main-container {
   display: flex;
   gap: 20px;
   max-width: 1200px;
-  margin: 0 0 0 20px; /* Alinha à esquerda com uma pequena margem */
+  margin: 0 0 0 20px;
 }
 
 .left-column {
@@ -194,4 +193,20 @@ ul li {
   overflow: hidden;
   text-overflow: ellipsis;
   flex-grow: 1;
+}
+
+.right-column ul li button:nth-child(2) {
+  background-color: #007bff; /* Botão "Editar" */
+}
+
+.right-column ul li button:nth-child(2):hover {
+  background-color: #0056b3;
+}
+
+.right-column ul li button:nth-child(3) {
+  background-color: #dc3545; /* Botão "Excluir" */
+}
+
+.right-column ul li button:nth-child(3):hover {
+  background-color: #c82333;
 }
