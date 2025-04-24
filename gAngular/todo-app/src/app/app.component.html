@@ -18,15 +18,21 @@
   <span style="margin-left: 20px;">Tarefas pendentes: {{ pendingTasksCount() }}</span>
 </div>
 
+<!-- Filtros -->
 <div style="margin-top: 10px;">
   <label><input type="radio" name="filter" value="all" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Todas</label>
   <label style="margin-left: 10px;"><input type="radio" name="filter" value="pending" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Pendentes</label>
   <label style="margin-left: 10px;"><input type="radio" name="filter" value="completed" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Concluídas</label>
+  <select [(ngModel)]="categoryFilter" (ngModelChange)="applyFilter()" style="margin-left: 20px;">
+    <option value="all">Todas as Categorias</option>
+    <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+  </select>
 </div>
 
 <!-- Lista de tarefas com drag-and-drop -->
 <ul cdkDropList (cdkDropListDropped)="drop($event)">
-  <li *ngFor="let task of filteredTasks" cdkDrag [class.completed]="task.completed">
+  <li *ngFor="let task of filteredTasks" cdkDrag [class.completed]="task.completed"
+      [style.border-left]="'4px solid ' + getCategoryColor(task.category)">
     <span *ngIf="editingTaskId !== task.id" (click)="toggleTask(task)" (dblclick)="startEditing(task)">
       [{{ task.category }}] {{ task.title }}
     </span>
@@ -34,9 +40,9 @@
       <select [(ngModel)]="task.category" style="margin-right: 5px;">
         <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
       </select>
-      <input [(ngModel)]="task.title"
-             (keyup.enter)="saveEdit(task)"
-             (blur)="saveEdit(task)"
+      <input [(ngModel)]="task.title" 
+             (keyup.enter)="saveEdit(task)" 
+             (blur)="saveEdit(task)" 
              autofocus>
     </div>
     <button (click)="removeTask(task.id)" style="margin-left: 10px;">Remover</button>

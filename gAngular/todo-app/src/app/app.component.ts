@@ -15,9 +15,17 @@ export class AppComponent {
   tasks: Task[] = [];
   filteredTasks: Task[] = [];
   filter: string = 'all';
+  categoryFilter: string = 'all';
+  categories: string[] = ['Trabalho', 'Pessoal', 'Compras', 'Outros'];
+  newTaskCategory: string = this.categories[0];
   editingTaskId: number | null = null;
-  categories: string[] = ['Trabalho', 'Pessoal', 'Compras', 'Outros']; // Lista de categorias
-  newTaskCategory: string = this.categories[0]; // Categoria padrão para nova tarefa
+  // Mapeamento de cores para categorias
+  categoryColors: { [key: string]: string } = {
+    Trabalho: '#007bff', // Azul
+    Pessoal: '#28a745', // Verde
+    Compras: '#ffc107', // Amarelo
+    Outros: '#6c757d' // Cinza
+  };
 
   constructor() {
     const savedTasks = localStorage.getItem('tasks');
@@ -36,10 +44,10 @@ export class AppComponent {
       id: this.tasks.length + 1,
       title,
       completed: false,
-      category: this.newTaskCategory // Usa a categoria selecionada
+      category: this.newTaskCategory
     };
     this.tasks.push(newTask);
-    this.newTaskCategory = this.categories[0]; // Reseta para a categoria padrão
+    this.newTaskCategory = this.categories[0];
     this.saveTasks();
     this.applyFilter();
   }
@@ -77,13 +85,19 @@ export class AppComponent {
   }
 
   applyFilter() {
+    let tempTasks = [...this.tasks];
+
     if (this.filter === 'pending') {
-      this.filteredTasks = this.tasks.filter(task => !task.completed);
+      tempTasks = tempTasks.filter(task => !task.completed);
     } else if (this.filter === 'completed') {
-      this.filteredTasks = this.tasks.filter(task => task.completed);
-    } else {
-      this.filteredTasks = [...this.tasks];
+      tempTasks = tempTasks.filter(task => task.completed);
     }
+
+    if (this.categoryFilter !== 'all') {
+      tempTasks = tempTasks.filter(task => task.category === this.categoryFilter);
+    }
+
+    this.filteredTasks = tempTasks;
   }
 
   toggleAll() {
@@ -114,5 +128,9 @@ export class AppComponent {
     moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
     this.saveTasks();
     this.applyFilter();
+  }
+
+  getCategoryColor(category: string): string {
+    return this.categoryColors[category] || '#6c757d'; // Cor padrão se a categoria não existir
   }
 }
