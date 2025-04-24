@@ -1,50 +1,96 @@
 <h1>Lista de Tarefas</h1>
 
-<!-- Formulário para adicionar tarefa com categoria -->
-<div style="display: flex; align-items: center;">
-  <input #taskInput placeholder="Nova tarefa" (keyup.enter)="addTask(taskInput.value); taskInput.value=''">
-  <select [(ngModel)]="newTaskCategory" style="margin-left: 10px;">
-    <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-  </select>
-  <button (click)="addTask(taskInput.value); taskInput.value=''" style="margin-left: 10px;">Adicionar</button>
-</div>
-
-<!-- Botão para limpar tarefas concluídas, contador e alternar todas -->
-<div style="margin-top: 10px;">
-  <button (click)="clearCompleted()">Limpar Concluídas</button>
-  <button (click)="toggleAll()" style="margin-left: 10px;">
-    {{ allCompleted() ? 'Desmarcar Todas' : 'Marcar Todas' }}
-  </button>
-  <span style="margin-left: 20px;">Tarefas pendentes: {{ pendingTasksCount() }}</span>
-</div>
-
-<!-- Filtros -->
-<div style="margin-top: 10px;">
-  <label><input type="radio" name="filter" value="all" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Todas</label>
-  <label style="margin-left: 10px;"><input type="radio" name="filter" value="pending" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Pendentes</label>
-  <label style="margin-left: 10px;"><input type="radio" name="filter" value="completed" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Concluídas</label>
-  <select [(ngModel)]="categoryFilter" (ngModelChange)="applyFilter()" style="margin-left: 20px;">
-    <option value="all">Todas as Categorias</option>
-    <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-  </select>
-</div>
-
-<!-- Lista de tarefas com drag-and-drop -->
-<ul cdkDropList (cdkDropListDropped)="drop($event)">
-  <li *ngFor="let task of filteredTasks" cdkDrag [class.completed]="task.completed"
-      [style.border-left]="'4px solid ' + getCategoryColor(task.category)">
-    <span *ngIf="editingTaskId !== task.id" (click)="toggleTask(task)" (dblclick)="startEditing(task)">
-      [{{ task.category }}] {{ task.title }}
-    </span>
-    <div *ngIf="editingTaskId === task.id" style="display: flex; align-items: center; flex-grow: 1;">
-      <select [(ngModel)]="task.category" style="margin-right: 5px;">
-        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-      </select>
-      <input [(ngModel)]="task.title" 
-             (keyup.enter)="saveEdit(task)" 
-             (blur)="saveEdit(task)" 
-             autofocus>
+<!-- Contêiner principal com duas colunas -->
+<div class="main-container">
+  <!-- Coluna esquerda: Formulário e lista de tarefas -->
+  <div class="left-column">
+    <!-- Formulário para adicionar tarefa com categoria -->
+    <div>
+      <h3>Adicionar Tarefa</h3>
+      <div style="display: flex; align-items: center;">
+        <input #taskInput placeholder="Nova tarefa" (keyup.enter)="addTask(taskInput.value); taskInput.value=''">
+        <select [(ngModel)]="newTaskCategory" style="margin-left: 10px;">
+          <option *ngFor="let category of categories" [value]="category" [style.color]="getCategoryColor(category)">
+            {{ category }}
+          </option>
+        </select>
+        <button (click)="addTask(taskInput.value); taskInput.value=''" style="margin-left: 10px;">Adicionar</button>
+      </div>
     </div>
-    <button (click)="removeTask(task.id)" style="margin-left: 10px;">Remover</button>
-  </li>
-</ul>
+
+    <!-- Botão para limpar tarefas concluídas, contador e alternar todas -->
+    <div style="margin-top: 10px;">
+      <button (click)="clearCompleted()">Limpar Concluídas</button>
+      <button (click)="toggleAll()" style="margin-left: 10px;">
+        {{ allCompleted() ? 'Desmarcar Todas' : 'Marcar Todas' }}
+      </button>
+      <span style="margin-left: 20px;">Tarefas pendentes: {{ pendingTasksCount() }}</span>
+    </div>
+
+    <!-- Filtros -->
+    <div style="margin-top: 10px;">
+      <label><input type="radio" name="filter" value="all" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Todas</label>
+      <label style="margin-left: 10px;"><input type="radio" name="filter" value="pending" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Pendentes</label>
+      <label style="margin-left: 10px;"><input type="radio" name="filter" value="completed" [(ngModel)]="filter" (ngModelChange)="applyFilter()"> Concluídas</label>
+      <select [(ngModel)]="categoryFilter" (ngModelChange)="applyFilter()" style="margin-left: 20px;">
+        <option value="all">Todas as Categorias</option>
+        <option *ngFor="let category of categories" [value]="category" [style.color]="getCategoryColor(category)">
+          {{ category }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Lista de tarefas com drag-and-drop -->
+    <ul cdkDropList (cdkDropListDropped)="drop($event)">
+      <li *ngFor="let task of filteredTasks" cdkDrag [class.completed]="task.completed"
+          [style.border-left]="'4px solid ' + getCategoryColor(task.category)">
+        <span *ngIf="editingTaskId !== task.id" (click)="toggleTask(task)" (dblclick)="startEditing(task)">
+          [{{ task.category }}] {{ task.title }}
+        </span>
+        <div *ngIf="editingTaskId === task.id" style="display: flex; align-items: center; flex-grow: 1;">
+          <select [(ngModel)]="task.category" style="margin-right: 5px;">
+            <option *ngFor="let category of categories" [value]="category" [style.color]="getCategoryColor(category)">
+              {{ category }}
+            </option>
+          </select>
+          <input [(ngModel)]="task.title" 
+                 (keyup.enter)="saveEdit(task)" 
+                 (blur)="saveEdit(task)" 
+                 autofocus>
+        </div>
+        <button (click)="removeTask(task.id)" style="margin-left: 10px;">Remover</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Coluna direita: Gerenciamento de categorias -->
+  <div class="right-column">
+    <h3>Categorias</h3>
+    <button (click)="openCategoryModal()">Adicionar Categoria</button>
+    <ul style="max-height: 400px; overflow-y: auto;">
+      <li *ngFor="let category of categories" style="margin: 5px 0; display: flex; align-items: center;">
+        <span [style.color]="getCategoryColor(category)">{{ category }}</span>
+        <button (click)="openCategoryModal(category)" style="margin-left: 10px;">Editar</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Modal para adicionar/editar categoria -->
+<div class="modal" *ngIf="showCategoryModal">
+  <div class="modal-content">
+    <h2>{{ editingCategory ? 'Editar Categoria' : 'Adicionar Categoria' }}</h2>
+    <div>
+      <label>Nome:</label>
+      <input [(ngModel)]="newCategoryName" placeholder="Nome da categoria">
+    </div>
+    <div style="margin-top: 10px;">
+      <label>Cor:</label>
+      <input type="color" [(ngModel)]="newCategoryColor">
+    </div>
+    <div style="margin-top: 20px;">
+      <button (click)="saveCategory()">Salvar</button>
+      <button (click)="closeCategoryModal()" style="margin-left: 10px;">Cancelar</button>
+    </div>
+  </div>
+</div>

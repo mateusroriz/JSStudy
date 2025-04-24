@@ -16,18 +16,33 @@ export class AppComponent {
   filteredTasks: Task[] = [];
   filter: string = 'all';
   categoryFilter: string = 'all';
-  categories: string[] = ['Trabalho', 'Pessoal', 'Compras', 'Outros'];
-  newTaskCategory: string = this.categories[0];
+  categories: string[] = [];
+  categoryColors: { [key: string]: string } = {};
+  newTaskCategory: string = '';
   editingTaskId: number | null = null;
-  // Mapeamento de cores para categorias
-  categoryColors: { [key: string]: string } = {
-    Trabalho: '#007bff', // Azul
-    Pessoal: '#28a745', // Verde
-    Compras: '#ffc107', // Amarelo
-    Outros: '#6c757d' // Cinza
-  };
+  showCategoryModal: boolean = false; // Controla a visibilidade do modal
+  editingCategory: string | null = null; // Categoria sendo editada (null para nova)
+  newCategoryName: string = ''; // Nome da nova/editada categoria
+  newCategoryColor: string = '#6c757d'; // Cor padrão para nova categoria
 
   constructor() {
+    // Carrega categorias e cores do localStorage
+    const savedCategories = localStorage.getItem('categories');
+    const savedColors = localStorage.getItem('categoryColors');
+    this.categories = savedCategories
+      ? JSON.parse(savedCategories)
+      : ['Trabalho', 'Pessoal', 'Compras', 'Outros'];
+    this.categoryColors = savedColors
+      ? JSON.parse(savedColors)
+      : {
+          Trabalho: '#007bff',
+          Pessoal: '#28a745',
+          Compras: '#ffc107',
+          Outros: '#6c757d'
+        };
+    this.newTaskCategory = this.categories[0];
+
+    // Carrega tarefas
     const savedTasks = localStorage.getItem('tasks');
     this.tasks = savedTasks ? JSON.parse(savedTasks) : [
       { id: 1, title: 'Aprender Angular', completed: false, category: 'Trabalho' },
@@ -78,6 +93,11 @@ export class AppComponent {
 
   private saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  }
+
+  private saveCategories() {
+    localStorage.setItem('categories', JSON.stringify(this.categories));
+    localStorage.setItem('categoryColors', JSON.stringify(this.categoryColors));
   }
 
   pendingTasksCount(): number {
@@ -131,6 +151,55 @@ export class AppComponent {
   }
 
   getCategoryColor(category: string): string {
-    return this.categoryColors[category] || '#6c757d'; // Cor padrão se a categoria não existir
+    return this.categoryColors[category] || '#6c757d';
+  }
+
+  openCategoryModal(category: string | null = null) {
+    this.editingCategory = category;
+    this.newCategoryName = category || '';
+    this.newCategoryColor = category ? this.categoryColors[category] : '#6c757d';
+    this.showCategoryModal = true;
+  }
+
+  saveCategory() {
+    if (this.newCategoryName.trim() === '') {
+      return; // Impede salvar categoria vazia
+    }
+    if (this.editingCategory) {
+      // Edita categoria existente
+      const oldCategory = this.editingCategory;
+      const newCategory = this.newCategoryName;
+      if (oldCategory !== newCategory) {
+        // Atualiza categoria nas tarefas
+        this.tasks = this.tasks.map(task =>
+          task.category === oldCategory ? { ...task, category: newCategory } : task
+        );
+        // Atualiza lista de categorias
+        this.categories = this.categories.map(cat =>
+          cat === oldCategory ? newCategory : cat
+        );
+      }
+      // Atualiza cor
+      delete this.categoryColors[oldCategory];
+      this.categoryColors[newCategory] = this.newCategoryColor;
+    } else {
+      // Adiciona nova categoria
+      if (!this.categories.includes(this.newCategoryName)) {
+        this.categories.push(this.newCategoryName);
+        this.categoryColors[this.newCategoryName] = this.newCategoryColor;
+      }
+    }
+    this.saveCategories();
+    this.saveTasks();
+    this.newTaskCategory = this.categories[0];
+    this.applyFilter();
+    this.closeCategoryModal();
+  }
+
+  closeCategoryModal() {
+    this.showCategoryModal = false;
+    this.editingCategory = null;
+    this.newCategoryName = '';
+    this.newCategoryColor = '#6c757d';
   }
 }
